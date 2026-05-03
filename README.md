@@ -5,7 +5,7 @@ This report provides a detailed analysis of two different approaches used to sol
 
 ---
 
-## 1. Iterative Approach (Boyer-Moore Majority Vote Algorithm)
+## 1. Iterative Approach 
 
 The iterative solution uses the **Boyer-Moore Majority Vote Algorithm**. It finds a candidate for the majority element in a single pass and then verifies if it is indeed the dominator in a second pass.
 
