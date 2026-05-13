@@ -39,6 +39,7 @@ int dominator_iterative(int A[], int n)
 
     return -1;
 }
+
 int dominator_recursive(int A[], int left, int right)
 {
     if (left == right)
@@ -53,17 +54,7 @@ int dominator_recursive(int A[], int left, int right)
     int right_value = A[right_index];
 
     if (left_value == right_value)
-    {
-        int last = left_index;
-
-        for (int i = left; i <= right; i++)
-        {
-            if (A[i] == left_value)
-                last = i;
-        }
-
-        return last;
-    }
+        return left_index;
 
     int left_count = 0;
     int right_count = 0;
@@ -80,30 +71,10 @@ int dominator_recursive(int A[], int left, int right)
     int size = right - left + 1;
 
     if (left_count > size / 2)
-    {
-        int last = left_index;
-
-        for (int i = left; i <= right; i++)
-        {
-            if (A[i] == left_value)
-                last = i;
-        }
-
-        return last;
-    }
+        return left_index;
 
     if (right_count > size / 2)
-    {
-        int last = right_index;
-
-        for (int i = left; i <= right; i++)
-        {
-            if (A[i] == right_value)
-                last = i;
-        }
-
-        return last;
-    }
-
+        return right_index;
+    
     return -1;
 }
