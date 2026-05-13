@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-int dominator_iterative(int A[], int N)
+int dominator_iterative(int A[], int n)
 {
     int candidate = 0;
     int count = 0;
 
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < n; i++)
     {
         if (count == 0)
         {
@@ -25,7 +25,7 @@ int dominator_iterative(int A[], int N)
     count = 0;
     int index = -1;
 
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < n; i++)
     {
         if (A[i] == candidate)
         {
@@ -34,39 +34,76 @@ int dominator_iterative(int A[], int N)
         }
     }
 
-    if (count > N / 2)
+    if (count > n / 2)
         return index;
 
     return -1;
 }
-
 int dominator_recursive(int A[], int left, int right)
 {
     if (left == right)
-        return A[left];
+        return left;
 
     int mid = (left + right) / 2;
 
-    int left_dom = dominator_recursive(A, left, mid);
-    int right_dom = dominator_recursive(A, mid + 1, right);
+    int left_index = dominator_recursive(A, left, mid);
+    int right_index = dominator_recursive(A, mid + 1, right);
 
-    if (left_dom == right_dom)
-        return left_dom;
+    int left_value = A[left_index];
+    int right_value = A[right_index];
+
+    if (left_value == right_value)
+    {
+        int last = left_index;
+
+        for (int i = left; i <= right; i++)
+        {
+            if (A[i] == left_value)
+                last = i;
+        }
+
+        return last;
+    }
 
     int left_count = 0;
     int right_count = 0;
 
     for (int i = left; i <= right; i++)
     {
-        if (A[i] == left_dom)
+        if (A[i] == left_value)
             left_count++;
 
-        if (A[i] == right_dom)
+        if (A[i] == right_value)
             right_count++;
     }
 
-    if (left_count > right_count)
-        return left_dom;
+    int size = right - left + 1;
 
-    return right_dom;
+    if (left_count > size / 2)
+    {
+        int last = left_index;
+
+        for (int i = left; i <= right; i++)
+        {
+            if (A[i] == left_value)
+                last = i;
+        }
+
+        return last;
+    }
+
+    if (right_count > size / 2)
+    {
+        int last = right_index;
+
+        for (int i = left; i <= right; i++)
+        {
+            if (A[i] == right_value)
+                last = i;
+        }
+
+        return last;
+    }
+
+    return -1;
 }
